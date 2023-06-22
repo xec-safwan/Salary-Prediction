@@ -3,9 +3,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from plotly import graph_objs as go
 import plotly.express as px
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+
+data = pd.read_csv('./data/Salary_Data.csv')
+lr = LinearRegression()
+x=np.array(data["YearsExperience"]).reshape(-1,1)
+lr.fit(x,np.array(data["Salary"]))
+
 
 st.title("Salary Prediction")
-data = pd.read_csv('./data/Salary_Data.csv')
 
 nav = st.sidebar.radio("",["Home","Prediction","Contribute to Dataset"])
 st.sidebar.image("./data/sal.jpg")
@@ -28,7 +36,11 @@ if nav=="Home":
         fig = px.scatter(data, x="YearsExperience", y="Salary")
         st.plotly_chart(fig)
 if nav=="Prediction":
-    st.write('Prediction')
-
+    st.header('Know Your Salary')
+    val = st.number_input("Enter Your Experience",0.00,20.00,step=0.25)
+    val = np.array(val).reshape(1,-1)
+    pred = lr.predict(val)[0]
+    if st.button("Predict"):
+        st.success(f"Your Predicted Salary is {round(pred)}")
 if nav=="Contribute to Dataset":
     st.write('Contribute')
