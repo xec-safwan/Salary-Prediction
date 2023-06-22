@@ -5,18 +5,25 @@ from plotly import graph_objs as go
 import plotly.express as px
 from sklearn.linear_model import LinearRegression
 import numpy as np
+from streamlit_option_menu import option_menu
 
-
+st.set_page_config(page_title='Salary Predictor', page_icon='./data/favicon.ico')
 data = pd.read_csv('./data/Salary_Data.csv')
 lr = LinearRegression()
 x=np.array(data["YearsExperience"]).reshape(-1,1)
 lr.fit(x,np.array(data["Salary"]))
 
 
-st.title("Salary Prediction")
-
-nav = st.sidebar.radio("",["Home","Prediction","Contribute to Dataset"])
-st.sidebar.image("./data/sal.jpg")
+st.title("Salary Predictor")
+# st.sidebar.title("Dashboard")
+# nav = st.sidebar.radio("",["Home","Prediction","Contribute to Dataset"])
+nav = option_menu(
+    menu_title=None,
+    options=["Home","Prediction","Contribute to Dataset"],
+    icons=["house","cash-stack","bag-check"],
+    default_index=0,
+    orientation="horizontal"
+)
 if nav=="Home":
     if st.checkbox('Show Table'):
         st.table(data)
