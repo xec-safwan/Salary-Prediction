@@ -13,7 +13,8 @@ if nav=="Home":
     if st.checkbox('Show Table'):
         st.table(data)
     graph =st.selectbox('Which Type Of Plot?',["Non-InterActive","Interactive"])
-
+    val = st.slider("Filter Data Based on Years",0,20)
+    data = data.loc[data["YearsExperience"]>=val]
     if graph=="Non-InterActive":
         plt.figure(figsize=(10,5))
         plt.scatter(data['YearsExperience'],data['Salary'])
