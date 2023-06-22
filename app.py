@@ -41,6 +41,13 @@ if nav=="Prediction":
     val = np.array(val).reshape(1,-1)
     pred = lr.predict(val)[0]
     if st.button("Predict"):
-        st.success(f"Your Predicted Salary is {round(pred)}")
+        st.success(f"Your Predicted Salary is RS. {round(pred)}")
 if nav=="Contribute to Dataset":
-    st.write('Contribute')
+    st.header('Contribute to our dataset')
+    ex = st.number_input("Enter Years of Experience",0.00,20.00,step=0.5)
+    sal = st.number_input("Enter Your Salary",0.00,100000.0,step=1000.0)
+    if st.button('Submit'):
+        to_add = {"YearsExperience":[ex],"Salary":[sal]}
+        to_add=pd.DataFrame(to_add)
+        to_add.to_csv('./data/Salary_Data.csv',mode='a',header=False,index=False)
+        st.success('Sucessfully submitted')
